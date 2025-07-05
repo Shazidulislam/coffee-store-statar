@@ -1,14 +1,38 @@
+import axios from 'axios'
+import { use } from 'react'
 import Swal from 'sweetalert2'
+import { AuthContext } from '../contexts/AuthContext'
 
 const AddCoffee = () => {
+  const {user} = use(AuthContext)
+  console.log(user)
   const handleAddCoffee = e => {
     e.preventDefault()
     const form = e.target
 
     const formData = new FormData(form)
     const newCoffee = Object.fromEntries(formData.entries())
-
+    newCoffee.likedBy = []
+    newCoffee.email = user?.email
     console.log(newCoffee)
+    // addcoffee data 
+    axios.post("http://localhost:3000/add-coffee" , newCoffee)
+    .then((data)=>{
+      console.log(data.data)
+      if(data.data.acknowledged){
+          Swal.fire({
+          title: "Coffee add successfully me!",
+          icon: "success",
+          draggable: true
+           });
+         e.target.reset()
+      }
+      
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+
   }
 
   return (
@@ -82,7 +106,7 @@ const AddCoffee = () => {
         <fieldset className='fieldset bg-base-200 border-base-300 rounded-box border my-6 p-4'>
           <label className='label'>Photo</label>
           <input
-            type='text'
+            type='url'
             name='photo'
             className='input w-full'
             placeholder='Photo URL'

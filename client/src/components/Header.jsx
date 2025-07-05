@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Link } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import { AuthContext } from '../contexts/AuthContext'
 
 const Header = () => {
@@ -33,7 +33,7 @@ const Header = () => {
               <Link to='/'>Home</Link>
             </li>
             <li>
-              <Link to='/all-coffees'>All Coffee's</Link>
+              <NavLink to={'/all-coffees'}>All Coffee's</NavLink>
             </li>
 
             {user && (
@@ -42,10 +42,11 @@ const Header = () => {
                   <Link to='/addCoffee'>Add Coffee</Link>
                 </li>
                 <li>
-                  <Link to='/my-added-coffees'>My Added Coffee's</Link>
+                  <Link to='/my-orders'>My Orders</Link>
+                  
                 </li>
                 <li>
-                  <Link to='/my-orders'>My Orders</Link>
+                   <NavLink to={`/my-added-coffee/${user?.email}`}>My Added Coffees</NavLink>
                 </li>
               </>
             )}

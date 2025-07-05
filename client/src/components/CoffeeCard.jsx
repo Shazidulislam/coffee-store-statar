@@ -1,7 +1,10 @@
+import { use } from 'react'
 import { Link } from 'react-router'
+import { AuthContext } from '../contexts/AuthContext'
 
 const CoffeeCard = ({ coffee }) => {
-  const { _id, name, price, quantity, photo } = coffee
+  const { _id, name, price, quantity, photo } = coffee ||{}
+  const {user} = use(AuthContext)
 
   return (
     <div className='card card-side bg-base-100 shadow-sm border-2'>
@@ -14,7 +17,8 @@ const CoffeeCard = ({ coffee }) => {
           <p>Price: {price}</p>
           <p>Quantity: {quantity}</p>
         </div>
-        <div className='card-actions justify-end'>
+      {
+        user &&   <div className='card-actions justify-end'>
           <div className='join join-vertical space-y-2'>
             <Link to={`/coffee/${_id}`}>
               <button className='btn join-item'>View</button>
@@ -25,6 +29,7 @@ const CoffeeCard = ({ coffee }) => {
             <button className='btn join-item'>X</button>
           </div>
         </div>
+      }
       </div>
     </div>
   )
