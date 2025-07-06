@@ -15,6 +15,7 @@ import AllCoffees from './Pages/AllCoffees.jsx'
 import axios from 'axios'
 import PriviteRoute from './PriviteRoute/PriviteRoute.jsx'
 import MyAddedCoffee from './Pages/MyAddedCoffee.jsx'
+import MyOrder from './components/MyOrder.jsx'
 
 const router = createBrowserRouter([
   {
@@ -63,10 +64,16 @@ const router = createBrowserRouter([
       {
         path:"/my-added-coffee/:email",
         hydrateFallbackElement:<span>Loading...</span>,
-        loader:({params})=>fetch(`http://localhost:3000/my-added-coffee/${params.email}`),
+        loader:({params})=>fetch(`http://localhost:3000/my-added-coffee/${params.email}` , {
+          credentials:'include'
+        }),
         element:<PriviteRoute>
           <MyAddedCoffee></MyAddedCoffee>
         </PriviteRoute>
+      },
+      {
+        path:"/myorder",
+        element:<PriviteRoute><MyOrder></MyOrder></PriviteRoute>
       }
     ],
   },

@@ -1,9 +1,10 @@
 import { useContext } from 'react'
-import { Link, NavLink } from 'react-router'
+import { Link, NavLink, useNavigate } from 'react-router'
 import { AuthContext } from '../contexts/AuthContext'
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext)
+  const navigate = useNavigate()
   return (
     <div className='navbar bg-base-100 shadow-sm'>
       <div className='navbar-start'>
@@ -35,6 +36,9 @@ const Header = () => {
             <li>
               <NavLink to={'/all-coffees'}>All Coffee's</NavLink>
             </li>
+            <li>
+              <NavLink to={'/myorder'}>My Order</NavLink>
+            </li>
 
             {user && (
               <>
@@ -42,11 +46,12 @@ const Header = () => {
                   <Link to='/addCoffee'>Add Coffee</Link>
                 </li>
                 <li>
-                  <Link to='/my-orders'>My Orders</Link>
+                  <Link to='/'>My Order</Link>
                   
                 </li>
+               
                 <li>
-                   <NavLink to={`/my-added-coffee/${user?.email}`}>My Added Coffees</NavLink>
+                   <NavLink to={`/my-added-coffee`}>My Added Coffees</NavLink>
                 </li>
               </>
             )}
@@ -69,7 +74,7 @@ const Header = () => {
                 <Link to='/addCoffee'>Add Coffee</Link>
               </li>
               <li>
-                <Link to='/my-added-coffees'>My Added Coffee's</Link>
+                <Link to={`/my-added-coffee/${user?.email}`}>My Added Coffee's</Link>
               </li>
               <li>
                 <Link to='/my-orders'>My Orders</Link>
@@ -84,7 +89,10 @@ const Header = () => {
                       className='w-8 rounded-full hidden md:flex'
                     />
                   )}
-                  <button className='btn btn-warning' onClick={logOut}>
+                  <button className='btn btn-warning' onClick={()=>{
+                    logOut()
+                    navigate("/")
+                  }}>
                     Logout
                   </button>
                 </div>
